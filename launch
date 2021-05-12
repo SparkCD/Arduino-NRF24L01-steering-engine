@@ -1,0 +1,31 @@
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
+#include <Servo.h>
+#include <Mirf.h>
+#define MY_RF24_CHANNEL 0；
+#include <MirfHardwareSpiDriver.h>
+int  panAngle;
+
+void setup() {
+  Mirf.cePin = 7;
+  Mirf.csnPin = 8;
+  Serial.begin(9600);  
+  Mirf.spi = &MirfHardwareSpi;
+  Mirf.init();
+  Mirf.setRADDR((byte *)"ABCDE"); //设置自己的地址（发送端地址），使用5个字符
+  Mirf.payload = sizeof(panAngle);
+  Mirf.channel = 90;              //设置所用信道
+  Mirf.config();
+}
+
+void loop(){
+Mirf.setTADDR((byte *)"FGHIJ");   
+  int panValue = analogRead(A0); 
+  int panAngle = map(panValue, 0, 1023, 0, 180);
+    Serial.println( panAngle);
+  
+  Mirf.send((byte *)&panAngle); 
+
+  delay(5);
+}
