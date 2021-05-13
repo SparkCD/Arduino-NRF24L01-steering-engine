@@ -26,6 +26,7 @@ Mirf.setTADDR((byte *)"FGHIJ");
     Serial.println( panAngle);
   
   Mirf.send((byte *)&panAngle); 
+  while(Mirf.isSending()) delay(1);         //直到发送成功，退出循环
 
   delay(5);
 }
