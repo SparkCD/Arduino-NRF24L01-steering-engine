@@ -14,6 +14,7 @@ void setup()
 {
   Mirf.cePin = 7;
   Mirf.csnPin = 8;
+  pan.attach(6);
   Serial.begin(9600);
   Mirf.spi = &MirfHardwareSpi;
   Mirf.init();
